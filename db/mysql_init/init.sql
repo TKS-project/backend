@@ -1,17 +1,6 @@
 CREATE DATABASE IF NOT EXISTS test;
 use test;
 
--- CREATE TABLE user (
---     user_id INT(8) NOT NULL,
---     user_name VARCHAR(200) NOT NULL,
---     password varchar(270) NOT  NULL,
---     mail varchar(30) unique
---     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ALTER TABLE user
---   ADD PRIMARY KEY (`user_id`);
-
-
 CREATE TABLE users (
     id INT(255) auto_increment NOT NULL,
     mail VARCHAR(255) UNIQUE,
@@ -19,8 +8,8 @@ CREATE TABLE users (
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
-    PRIMARY KEY(id),
-)
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE travels (
     id INT(255) auto_increment NOT NULL,
@@ -32,6 +21,70 @@ CREATE TABLE travels (
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
-    PRIMARY KEY(id),
-)
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE prefectures (
+    id INT(3) auto_increment NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(255) NOT NULL,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE cities (
+    id INT(255) auto_increment NOT NULL,
+    prefecture_id INT(3) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(255) NOT NULL,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE detailed_cities (
+    id INT(255) auto_increment NOT NULL,
+    city_id INT(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(255) NOT NULL,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+CREATE TABLE budgets (
+    id INT(255) NOT NULL,
+    transportations INT(8) NOT NULL,
+    accommodation INT(255) NOT NULL,
+    sightseeing INT(255) NOT NULL,
+    meal INT(255) NOT NULL,
+    updated_at datetime,
+	created_at datetime,
+	deleted_at datetime,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE visits (
+    id INT(255) NOT NULL,
+    visit_day DATE,
+    address VARCHAR(255),
+    charge INT(255),
+    info VARCHAR(255),
+    name VARCHAR(255),
+    visit_type varchar(255),
+    updated_at datetime,
+	created_at datetime,
+	deleted_at datetime,
+    PRIMARY KEY(id)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE transportations (
+    id INT(255) NOT NULL,
+    destination VARCHAR(255) NOT NULL,
+    departure VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    charge INT(255) NOT NULL,
+    order_no INT(8) NOT NULL,
+    way_there Boolean not NULL,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

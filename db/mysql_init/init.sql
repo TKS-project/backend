@@ -55,7 +55,7 @@ CREATE TABLE budgets (
     transportations INT(8) NOT NULL,
     accommodation INT(255) NOT NULL,
     sightseeing INT(255) NOT NULL,
-    meal INT(255) NOT NULL
+    meal INT(255) NOT NULL,
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
@@ -65,7 +65,7 @@ CREATE TABLE budgets (
 CREATE TABLE visits (
     id INT(255) NOT NULL,
     visit_day DATE,
-    address VARCHAR,
+    address VARCHAR(255),
     charge INT(255),
     info VARCHAR(255),
     name VARCHAR(255),
@@ -83,8 +83,8 @@ CREATE TABLE transportations (
     departure VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
     charge INT(255) NOT NULL,
-    order INT(8) NOT NULL,
-    is_way_there Boolean,
+    order_no INT(8) NOT NULL,
+    way_there Boolean not NULL,
     PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

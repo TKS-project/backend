@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/Kantaro0829/clean-architecture-in-go/domain"
 	"github.com/Kantaro0829/clean-architecture-in-go/infrastructure"
 
 	"github.com/gin-gonic/gin"
@@ -28,5 +27,5 @@ func dbinit() {
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 	}
-	db.Migrator().CreateTable(domain.User{})
+	//db.Migrator().CreateTable(domain.User{})
 }

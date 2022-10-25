@@ -16,6 +16,7 @@ type TokenizerImpl struct {
 func (tokenizer *TokenizerImpl) New(user domain.User) (domain.Token, error) {
 	var tokenString domain.Token
 	generatedToken, err := tokenizer.Generate(user.ID, user.Name, user.Mail)
+	//generatedToken, err := tokenizer.Generate(user.ID, user.Mail)
 	if err != nil {
 		return tokenString, err
 	}
@@ -23,8 +24,8 @@ func (tokenizer *TokenizerImpl) New(user domain.User) (domain.Token, error) {
 	return tokenString, nil
 }
 
-func (tokenizer *TokenizerImpl) Verify(token domain.Token) error {
+func (tokenizer *TokenizerImpl) Verify(token domain.Token) (int, error) {
 	tokenString := string(token)
-	err := tokenizer.VerifyToken(tokenString)
-	return err
+	id, err := tokenizer.VerifyToken(tokenString)
+	return id, err
 }

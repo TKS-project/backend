@@ -17,6 +17,10 @@ func Init() {
 		NewTokenHandler(), //jwt用のDI
 	)
 
+	scrapeController := controllers.NewScrapeController(
+		NewGoQueryHandler(),
+	)
+
 	router.GET("/users", func(c *gin.Context) {
 
 		userController.GetUser(c)
@@ -134,6 +138,11 @@ func Init() {
 				"statsu":  http.StatusAccepted,
 				"message": "JWT認証成功",
 			})
+		return
+	})
+
+	router.GET("/word/:word", func(c *gin.Context) {
+		scrapeController.GetMeaning(c)
 		return
 	})
 

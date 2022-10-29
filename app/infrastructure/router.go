@@ -21,6 +21,10 @@ func Init() {
 		NewGoQueryHandler(),
 	)
 
+	hotelApiController := controllers.NewHotelApiRequestController(
+		NewRakutenApiRequestHandler(),
+	)
+
 	router.GET("/users", func(c *gin.Context) {
 
 		userController.GetUser(c)
@@ -143,6 +147,11 @@ func Init() {
 
 	router.GET("/word/:word", func(c *gin.Context) {
 		scrapeController.GetMeaning(c)
+		return
+	})
+
+	router.GET("/hotel", func(c *gin.Context) {
+		hotelApiController.GetVacantHotelAndRoom(c)
 		return
 	})
 

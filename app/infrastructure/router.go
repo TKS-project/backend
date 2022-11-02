@@ -25,6 +25,9 @@ func Init() {
 		NewRakutenApiRequestHandler(),
 	)
 
+	prefectureAndCityController := controllers.NewPrefectureAndCityController(
+		NewSqlHandler(),
+	)
 	router.GET("/users", func(c *gin.Context) {
 
 		userController.GetUser(c)
@@ -152,6 +155,16 @@ func Init() {
 
 	router.GET("/hotel", func(c *gin.Context) {
 		hotelApiController.GetVacantHotelAndRoom(c)
+		return
+	})
+
+	router.GET("/prefectures", func(c *gin.Context) {
+		prefectureAndCityController.GetAllPrefectures(c)
+		return
+	})
+
+	router.GET("/cities", func(c *gin.Context) {
+		prefectureAndCityController.GetALlCities(c)
 		return
 	})
 

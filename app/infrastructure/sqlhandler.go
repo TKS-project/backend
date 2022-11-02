@@ -111,3 +111,12 @@ func (handler *SqlHandler) GetAllCities() ([]domain.Citie, error) {
 	fmt.Println(cities)
 	return cities, nil
 }
+
+func (handler *SqlHandler) GetAllDetailedCities() ([]domain.DetailedCitie, error) {
+	detailedCities := []domain.DetailedCitie{}
+	if err := handler.db.Find(&detailedCities).Error; err != nil {
+		return detailedCities, err
+	}
+	fmt.Println(detailedCities)
+	return detailedCities, nil
+}

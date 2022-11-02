@@ -27,3 +27,11 @@ func (db *PrefectureRepository) FindAllCities() ([]domain.Citie, error) {
 	}
 	return cities, err
 }
+
+func (db *PrefectureRepository) FindAllDetailedCities() ([]domain.DetailedCitie, error) {
+	detailedCities, err := db.GetAllDetailedCities()
+	if err != nil {
+		return []domain.DetailedCitie{}, err
+	}
+	return detailedCities, err
+}

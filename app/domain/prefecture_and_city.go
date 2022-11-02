@@ -1,6 +1,8 @@
 package domain
 
-import "time"
+import (
+	"time"
+)
 
 type Prefecture struct {
 	ID        int `gorm:"primary_key auto_increment"`
@@ -19,4 +21,14 @@ type Citie struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	DeletedAt    time.Time
+}
+
+type DetailedCitie struct {
+	ID        int16 `gorm:"primary_key auto_increment"`
+	CityId    int16
+	Name      string
+	Code      string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
 }

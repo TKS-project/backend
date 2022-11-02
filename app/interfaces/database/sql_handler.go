@@ -15,4 +15,5 @@ type SqlHandler interface {
 	DeleteOne(user domain.User) error
 	GetAllPrefectures() ([]domain.Prefecture, error)
 	GetAllCities() ([]domain.Citie, error)
+	GetAllDetailedCities() ([]domain.DetailedCitie, error)
 }

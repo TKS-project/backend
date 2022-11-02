@@ -168,5 +168,10 @@ func Init() {
 		return
 	})
 
+	router.GET("/detailed", func(c *gin.Context) {
+		prefectureAndCityController.GetAllDetailedCities(c)
+		return
+	})
+
 	router.Run(":3000")
 }

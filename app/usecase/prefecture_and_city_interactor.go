@@ -22,3 +22,11 @@ func (interactor *PrefectureAndCityInteractor) FindAllCities() ([]domain.Citie, 
 	}
 	return cities, err
 }
+
+func (interactor *PrefectureAndCityInteractor) FindAllDetailedCities() ([]domain.DetailedCitie, error) {
+	detailedCities, err := interactor.PrefectureRepository.FindAllDetailedCities()
+	if err != nil {
+		return []domain.DetailedCitie{}, err
+	}
+	return detailedCities, err
+}

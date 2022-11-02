@@ -26,7 +26,9 @@ CREATE TABLE travels (
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    foreign key(user_id) references users(id) ON DELETE CASCADE ON UPDATE CASCADE
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE prefectures (
@@ -98,7 +100,8 @@ CREATE TABLE cities (
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    foreign key(prefecture_id) references prefectures(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO cities (id, prefecture_id, name, code, updated_at, created_at, deleted_at)
@@ -422,7 +425,8 @@ CREATE TABLE detailed_cities (
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    foreign key(city_id) references cities(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- insert initial data to users table
@@ -464,7 +468,9 @@ CREATE TABLE budgets (
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    foreign key(id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE visits (
@@ -478,7 +484,8 @@ CREATE TABLE visits (
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    foreign key(id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -493,6 +500,8 @@ CREATE TABLE transportations (
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    foreign key(id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

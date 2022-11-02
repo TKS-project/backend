@@ -93,3 +93,21 @@ func (handler *SqlHandler) GetPasswordAndId(mail string) (domain.User, error) {
 	}
 	return user, nil
 }
+
+func (handler *SqlHandler) GetAllPrefectures() ([]domain.Prefecture, error) {
+	prefecture := []domain.Prefecture{}
+	if err := handler.db.Find(&prefecture).Error; err != nil {
+		return prefecture, err
+	}
+	fmt.Println(prefecture)
+	return prefecture, nil
+}
+
+func (handler *SqlHandler) GetAllCities() ([]domain.Citie, error) {
+	cities := []domain.Citie{}
+	if err := handler.db.Find(&cities).Error; err != nil {
+		return cities, err
+	}
+	fmt.Println(cities)
+	return cities, nil
+}

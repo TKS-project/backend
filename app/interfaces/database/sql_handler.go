@@ -13,4 +13,6 @@ type SqlHandler interface {
 	GetIdMailNamePasswordByMail(mail string) (domain.User, error)
 	GetPasswordAndId(mail string) (domain.User, error)
 	DeleteOne(user domain.User) error
+	GetAllPrefectures() ([]domain.Prefecture, error)
+	GetAllCities() ([]domain.Citie, error)
 }

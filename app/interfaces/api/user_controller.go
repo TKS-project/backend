@@ -135,3 +135,16 @@ func (controller *UserController) Authenticate(c Context) error {
 	fmt.Printf("JWTから解析したID : %v", id)
 	return nil
 }
+
+func (controller *UserController) GetNamePass(c *gin.Context) {
+	mail := c.Param("mail")
+	res, err := controller.Interactor.NamePassword(mail)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+	return
+}

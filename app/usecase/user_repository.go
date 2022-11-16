@@ -5,8 +5,8 @@ import (
 )
 
 type UserRepository interface {
-	Store(domain.User) error
-	Select() ([]domain.User, error)
+	SignUp(u domain.User) error
+	SelectAll() ([]domain.User, error)
 	Delete(id string)
 	DeleteByMail(user domain.User) error
 	Update(u domain.User, name string)
@@ -15,4 +15,6 @@ type UserRepository interface {
 	GetPasswordForUpdate(mail string) (domain.User, error)
 	//以下追加
 	GetMailNamePasswordByMail(mail string) (domain.User, error)
+
+	NameAndPassword(mail string) (domain.NameAndPassword, error)
 }

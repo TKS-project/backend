@@ -24,25 +24,30 @@ func NewSqlHandler() database.SqlHandler {
 	return sqlHandler
 }
 
-//データベースが変わった場合や使用しているフレームワークが
-//変更された場合などはここを変更する
-//interface層内の./database配下にinterfaceを定義する
-func (handler *SqlHandler) Create(user domain.User) error {
-
-	if err := handler.db.Create(&user).Error; err != nil {
+//基本的に引数はinterface{}で受け取るDIPしたときにどんな型の構造体でも受け入れれる
+//	&はここではつけない
+func (handler *SqlHandler) Create(obj interface{}) error {
+	if err := handler.db.Create(obj).Error; err != nil {
 		return err
 	}
 	return nil
-
 }
 
-func (handler *SqlHandler) FindAll(user []domain.User) ([]domain.User, error) {
-	users := user
-	if err := handler.db.Find(&users).Error; err != nil {
+func (handler *SqlHandler) FindAll(obj interface{}) (interface{}, error) {
+	if err := handler.db.Find(obj).Error; err != nil {
 		return nil, err
 	}
-	fmt.Println(users)
-	return users, nil
+	return obj, nil
+}
+
+func (handler *SqlHandler) Row(row string, where interface{}, scan interface{}) (interface{}, error) {
+	//row string sql
+	//whre -> struct interface
+	//scan  -> interface
+	if err := handler.db.Raw(row).Where(where).Scan(scan).Error; err != nil {
+		return nil, err
+	}
+	return scan, nil
 }
 
 func (handler *SqlHandler) DeleteById(obj interface{}, id string) {

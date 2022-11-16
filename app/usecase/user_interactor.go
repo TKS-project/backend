@@ -15,12 +15,13 @@ type UserInteractor struct {
 
 func (interactor *UserInteractor) Add(u domain.User) error {
 	//interactor.UserRepository.Store(u)
-	err := interactor.UserRepository.Store(u)
+	err := interactor.UserRepository.SignUp(u)
 	return err
 }
 
 func (interactor *UserInteractor) GetInfo() ([]domain.User, error) {
-	return interactor.UserRepository.Select()
+	obj, err := interactor.UserRepository.SelectAll()
+	return obj, err
 }
 
 func (interactor *UserInteractor) Delete(id string) {
@@ -95,6 +96,7 @@ func (interactor *UserInteractor) UpdateUser(userJson domain.User) (string, erro
 func (interactor *UserInteractor) DeleteByMail(userJson domain.User) (string, error, bool) {
 	mail := userJson.Mail
 	password := userJson.Password
+	//ここをDB.Row
 	user, err := interactor.UserRepository.GetPasswordForUpdate(mail)
 
 	if err != nil {
@@ -113,6 +115,14 @@ func (interactor *UserInteractor) DeleteByMail(userJson domain.User) (string, er
 	}
 	return "削除完了", nil, true
 
+}
+
+func (interactor *UserInteractor) NamePassword(mail string) (domain.NameAndPassword, error) {
+	result, err := interactor.UserRepository.NameAndPassword(mail)
+	if err != nil {
+		return domain.NameAndPassword{}, err
+	}
+	return result, err
 }
 
 func ValitatePassword(regedPassword string, password string) bool {

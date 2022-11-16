@@ -5,8 +5,8 @@ import (
 )
 
 type SqlHandler interface {
-	Create(user domain.User) error
-	FindAll(object []domain.User) ([]domain.User, error)
+	Create(object interface{}) error
+	FindAll(object interface{}) (interface{}, error)
 	DeleteById(object interface{}, id string)
 	UpdateName(user domain.User) error
 	GetPasswordByMail(mail string) (string, error)
@@ -16,4 +16,6 @@ type SqlHandler interface {
 	GetAllPrefectures() ([]domain.Prefecture, error)
 	GetAllCities() ([]domain.Citie, error)
 	GetAllDetailedCities() ([]domain.DetailedCitie, error)
+
+	Row(row string, where interface{}, scan interface{}) (interface{}, error)
 }

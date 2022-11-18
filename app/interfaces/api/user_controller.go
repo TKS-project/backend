@@ -71,29 +71,17 @@ func (controller *UserController) GetUser(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
-func (controller *UserController) Delete(id string) {
-	controller.Interactor.Delete(id)
-}
-
-func (controller *UserController) Update(c *gin.Context) {
-	user := domain.User{}
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	controller.Interactor.Update(user, user.Name)
-}
+// func (controller *UserController) Update(c *gin.Context) {
+// 	user := domain.User{}
+// 	if err := c.ShouldBindJSON(&user); err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	controller.Interactor.Update(user, user.Name)
+// }
 
 func (controller *UserController) UpdateByMail(user domain.User) (string, error, bool) {
 	message, err, isValidated := controller.Interactor.UpdateUser(user)
-	if err != nil {
-		return message, err, isValidated
-	}
-	return message, nil, isValidated
-}
-
-func (controller *UserController) DeleteByMail(user domain.User) (string, error, bool) {
-	message, err, isValidated := controller.Interactor.DeleteByMail(user)
 	if err != nil {
 		return message, err, isValidated
 	}

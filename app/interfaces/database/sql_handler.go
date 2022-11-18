@@ -7,6 +7,9 @@ import (
 type SqlHandler interface {
 	Create(object interface{}) error
 	FindAll(object interface{}) (interface{}, error)
+	FindOne(obj interface{}, columns []string, where interface{}) (interface{}, error)
+
+	Update(object interface{}) error
 	DeleteById(object interface{}, id string)
 	UpdateName(user domain.User) error
 	GetPasswordByMail(mail string) (string, error)

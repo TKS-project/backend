@@ -47,3 +47,13 @@ func (controller *PrefectureAndCityController) GetALlCities(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": res})
 }
+
+func (controller *PrefectureAndCityController) GetAllDetailedCities(c *gin.Context) {
+	res, err := controller.Interactor.FindAllDetailedCities()
+	if err != nil {
+		//エラーハンドリング
+		c.JSON(400, gin.H{"message": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": res})
+}

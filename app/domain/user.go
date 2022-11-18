@@ -7,4 +7,12 @@ type User struct {
 	Name     string `json:"name"`
 	Mail     string `json:"mail" gorm:"unique"`
 	Password string `json:"password"`
+	// CreatedAt time.Time
+	// UpdatedAt time.Time
+	// DeletedAt time.Time
+}
+
+type NameAndPassword struct {
+	Name     string `json:"name"`
+	Password string `json:"password"`
 }

@@ -24,25 +24,51 @@ func NewSqlHandler() database.SqlHandler {
 	return sqlHandler
 }
 
-//データベースが変わった場合や使用しているフレームワークが
-//変更された場合などはここを変更する
-//interface層内の./database配下にinterfaceを定義する
-func (handler *SqlHandler) Create(user domain.User) error {
-
-	if err := handler.db.Create(&user).Error; err != nil {
+//基本的に引数はinterface{}で受け取るDIPしたときにどんな型の構造体でも受け入れれる
+//	&はここではつけない
+func (handler *SqlHandler) Create(obj interface{}) error {
+	if err := handler.db.Create(obj).Error; err != nil {
 		return err
 	}
 	return nil
+}
+
+func (handler *SqlHandler) FindAll(obj interface{}) (interface{}, error) {
+	if err := handler.db.Find(obj).Error; err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (handler *SqlHandler) FindOne(obj interface{}, columns []string, where interface{}) (interface{}, error) {
+	//handler.db.Select([]string{"name", "age"}).Where(&User{Name: "jinzhu", Age: 20}).First(&obj)
+	if err := handler.db.Select(columns).Where(where).First(obj).Error; err != nil {
+		return nil, err
+	}
+	return obj, nil
 
 }
 
-func (handler *SqlHandler) FindAll(user []domain.User) ([]domain.User, error) {
-	users := user
-	if err := handler.db.Find(&users).Error; err != nil {
+func (handler *SqlHandler) Row(row string, where interface{}, scan interface{}) (interface{}, error) {
+	//戻り値配列
+	if err := handler.db.Raw(row).Where(where).Scan(scan).Error; err != nil {
 		return nil, err
 	}
-	fmt.Println(users)
-	return users, nil
+	return scan, nil
+}
+
+func (handler *SqlHandler) Update(obj interface{}) error {
+	// if err := handler.db.Model(&user).Updates(User{Name: "hello", Age: 18, Active: false}).Error; err != nil {
+	// 	return err
+	// }
+	if err := handler.db.Save(obj).Error; err != nil {
+		return err
+	}
+	// if err := handler.db.Model(obj).Updates(where).Error; err != nil {
+	// 	return err
+	// }
+
+	return nil
 }
 
 func (handler *SqlHandler) DeleteById(obj interface{}, id string) {
@@ -78,14 +104,6 @@ func (handler *SqlHandler) GetIdMailNamePasswordByMail(mail string) (domain.User
 	return user, nil
 }
 
-func (handler *SqlHandler) GetPasswordByMail(mail string) (string, error) {
-	user := domain.User{}
-	if err := handler.db.Select("password").Where("mail = ?", mail).First(&user).Error; err != nil {
-		return "", err
-	}
-	return user.Password, nil
-}
-
 func (handler *SqlHandler) GetPasswordAndId(mail string) (domain.User, error) {
 	user := domain.User{}
 	if err := handler.db.Select("password, id").Where("mail = ?", mail).First(&user).Error; err != nil {
@@ -110,4 +128,21 @@ func (handler *SqlHandler) GetAllCities() ([]domain.Citie, error) {
 	}
 	fmt.Println(cities)
 	return cities, nil
+}
+
+func (handler *SqlHandler) GetAllDetailedCities() ([]domain.DetailedCitie, error) {
+	detailedCities := []domain.DetailedCitie{}
+	if err := handler.db.Find(&detailedCities).Error; err != nil {
+		return detailedCities, err
+	}
+	fmt.Println(detailedCities)
+	return detailedCities, nil
+}
+
+func (handler *SqlHandler) GetPasswordByMail(mail string) (string, error) {
+	user := domain.User{}
+	if err := handler.db.Select("password").Where("mail = ?", mail).First(&user).Error; err != nil {
+		return "", err
+	}
+	return user.Password, nil
 }

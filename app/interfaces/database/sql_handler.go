@@ -5,8 +5,11 @@ import (
 )
 
 type SqlHandler interface {
-	Create(user domain.User) error
-	FindAll(object []domain.User) ([]domain.User, error)
+	Create(object interface{}) error
+	FindAll(object interface{}) (interface{}, error)
+	FindOne(obj interface{}, columns []string, where interface{}) (interface{}, error)
+
+	Update(object interface{}) error
 	DeleteById(object interface{}, id string)
 	UpdateName(user domain.User) error
 	GetPasswordByMail(mail string) (string, error)
@@ -15,4 +18,7 @@ type SqlHandler interface {
 	DeleteOne(user domain.User) error
 	GetAllPrefectures() ([]domain.Prefecture, error)
 	GetAllCities() ([]domain.Citie, error)
+	GetAllDetailedCities() ([]domain.DetailedCitie, error)
+
+	Row(row string, where interface{}, scan interface{}) (interface{}, error)
 }

@@ -1,7 +1,7 @@
 package domain
 
 type Transportation struct {
-	ID          int    `json:"id"`
+	ID          int    `json:"id" gorm:"primary_key auto_increment"`
 	BudgetId    int    `json:"budget_id"`
 	Destination string `json:"destination"`
 	Departure   string `json:"departure"`

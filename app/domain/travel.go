@@ -1,7 +1,7 @@
 package domain
 
 type Travel struct {
-	ID            int `json:"id"`
+	ID            int `json:"id" gorm:"primary_key auto_increment"`
 	UserId        int `json:"user_id"`
 	DestinationId int `json:"destination_id"`
 	DepartureId   int `json:"departure_id"`

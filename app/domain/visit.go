@@ -5,7 +5,7 @@ import (
 )
 
 type Visit struct {
-	ID        int       `json:"id"`
+	ID        int       `json:"id" gorm:"primary_key auto_increment"`
 	BudgetId  int       `json:"budget_id"`
 	VisitDay  time.Time `json:"visit_day"`
 	Address   string    `json:"address"`

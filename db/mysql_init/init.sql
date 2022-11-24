@@ -465,6 +465,7 @@ CREATE TABLE budgets (
     accommodation INT(255) NOT NULL,
     sightseeing INT(255) NOT NULL,
     meal INT(255) NOT NULL,
+    sum INT(255) NOT NULL,
     updated_at datetime,
 	created_at datetime,
 	deleted_at datetime,

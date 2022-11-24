@@ -45,6 +45,11 @@ func Init() {
 	prefectureAndCityController := controllers.NewPrefectureAndCityController(
 		NewSqlHandler(),
 	)
+	travelController := controllers.NewTravelController(
+		NewSqlHandler(),
+		NewTokenHandler(),
+	)
+
 	router.GET("/users", func(c *gin.Context) {
 
 		userController.GetUser(c)
@@ -165,6 +170,11 @@ func Init() {
 
 	router.GET("/user/:mail", func(c *gin.Context) {
 		userController.GetNamePass(c)
+		return
+	})
+
+	router.POST("/travel", func(c *gin.Context) {
+		travelController.Add(c)
 		return
 	})
 

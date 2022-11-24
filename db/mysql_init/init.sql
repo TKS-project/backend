@@ -460,7 +460,8 @@ INSERT INTO detailed_cities(id, city_id, name, code, updated_at, created_at, del
 
 
 CREATE TABLE budgets (
-    id INT(255) NOT NULL,
+    id INT(255) auto_increment NOT NULL,
+    travel_id INT(255) NOT NULL,
     transportations INT(8) NOT NULL,
     accommodation INT(255) NOT NULL,
     sightseeing INT(255) NOT NULL,
@@ -470,12 +471,13 @@ CREATE TABLE budgets (
 	created_at datetime,
 	deleted_at datetime,
     PRIMARY KEY(id),
-    foreign key(id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
+    foreign key(travel_id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE visits (
-    id INT(255) NOT NULL,
+    id INT(255) auto_increment NOT NULL,
+    travel_id INT(255) NOT NULL,
     visit_day DATE,
     address VARCHAR(255),
     charge INT(255),
@@ -486,12 +488,13 @@ CREATE TABLE visits (
 	created_at datetime,
 	deleted_at datetime,
     PRIMARY KEY(id),
-    foreign key(id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
+    foreign key(travel_id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE transportations (
-    id INT(255) NOT NULL,
+    id INT(255) auto_increment NOT NULL,
+    travel_id INT(255) NOT NULL,
     destination VARCHAR(255) NOT NULL,
     departure VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
@@ -502,7 +505,7 @@ CREATE TABLE transportations (
 	created_at datetime,
 	deleted_at datetime,
     PRIMARY KEY(id),
-    foreign key(id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
+    foreign key(travel_id) references travels(id) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

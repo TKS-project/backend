@@ -8,3 +8,9 @@ type Travel struct {
 	MaxPerson     int `json:"max_person"`
 	MaxDay        int `json:"max_day"`
 }
+
+/*
+{
+	"destination_id": 24, "departure_id": 25, "max_person": 1, "max_day": 1
+}
+*/

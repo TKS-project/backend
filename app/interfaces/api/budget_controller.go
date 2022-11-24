@@ -1,10 +1,12 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/Kantaro0829/clean-architecture-in-go/domain"
 	"github.com/Kantaro0829/clean-architecture-in-go/interfaces/database"
+	"github.com/Kantaro0829/clean-architecture-in-go/interfaces/token"
 
 	"github.com/Kantaro0829/clean-architecture-in-go/usecase"
 	"github.com/gin-gonic/gin"
@@ -12,10 +14,12 @@ import (
 
 type BudgetController struct {
 	Interactor usecase.BudgetInteractor
+	Toekn      usecase.TokenInteractor
 }
 
 func NewBudgetController(
 	sqlHandler database.SqlHandler,
+	tokenHandler token.TokenHandler,
 ) *BudgetController {
 	return &BudgetController{
 		Interactor: usecase.BudgetInteractor{
@@ -23,27 +27,33 @@ func NewBudgetController(
 				SqlHandler: sqlHandler,
 			},
 		},
+		Toekn: usecase.TokenInteractor{
+			Tokenizer: &token.TokenizerImpl{
+				TokenHandler: tokenHandler,
+			},
+		},
 	}
 }
 
 //ルーティングのハンドラ
 func (controller *BudgetController) Add(c *gin.Context) {
-	// Get token from request header
-	// var header domain.HeaderWithToken
-	// err := c.BindHeader(&header)
-	// if err != nil {
-	// 	c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
-	// 	return
-	// }
+	//Get token from request header
+	var header domain.HeaderWithToken
+	err := c.BindHeader(&header)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
+		return
+	}
 
-	// // Verify token
-	// tokenString := domain.Token(header.Authorization)
-	// id, err := controller.Interactor.Authenticate(tokenString)
-	// if err != nil {
-	// 	c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
-	// 	return
-	// }
-	// fmt.Printf("JWTから解析したID : %v", id)
+	// Verify token
+	tokenString := domain.Token(header.Authorization)
+	id, err := controller.Toekn.GetId(tokenString)
+	//id, err := controller.Interactor.Authenticate(tokenString)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
+		return
+	}
+	fmt.Printf("JWTから解析したID : %v", id)
 
 	var budgetJson domain.Budget
 

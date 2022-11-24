@@ -51,6 +51,7 @@ func Init() {
 	)
 	budgetController := controllers.NewBudgetController(
 		NewSqlHandler(),
+		NewTokenHandler(),
 	)
 
 	router.GET("/users", func(c *gin.Context) {

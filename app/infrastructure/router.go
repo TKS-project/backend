@@ -53,6 +53,10 @@ func Init() {
 		NewSqlHandler(),
 		NewTokenHandler(),
 	)
+	visitController := controllers.NewVisitController(
+		NewSqlHandler(),
+		NewTokenHandler(),
+	)
 
 	router.GET("/users", func(c *gin.Context) {
 
@@ -184,6 +188,10 @@ func Init() {
 
 	router.POST("/budget", func(c *gin.Context) {
 		budgetController.Add(c)
+		return
+	})
+	router.POST("/visit", func(c *gin.Context) {
+		visitController.Add(c)
 		return
 	})
 

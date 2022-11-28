@@ -57,6 +57,10 @@ func Init() {
 		NewSqlHandler(),
 		NewTokenHandler(),
 	)
+	transportsController := controllers.NewTransportsController(
+		NewSqlHandler(),
+		NewTokenHandler(),
+	)
 
 	router.GET("/users", func(c *gin.Context) {
 
@@ -193,6 +197,9 @@ func Init() {
 	router.POST("/visit", func(c *gin.Context) {
 		visitController.Add(c)
 		return
+	})
+	router.POST("/transports", func(c *gin.Context) {
+		transportsController.Add(c)
 	})
 
 	router.Run(":3000")

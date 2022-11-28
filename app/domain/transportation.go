@@ -6,7 +6,7 @@ type Transportation struct {
 	Destination string `json:"destination"`
 	Departure   string `json:"departure"`
 	Type        string `json:"type"`
-	Charge      int    `json:"charge"`
-	Order       int    `json:"order"`
-	IsWayThere  bool   `json:"is_way_there"`
+	Charge      uint16 `json:"charge"`
+	OrderNo     uint16 `json:"order_no"`
+	WayThere    bool   `json:"way_there"`
 }

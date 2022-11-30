@@ -5,5 +5,12 @@ import (
 )
 
 type ApiRequestRepository interface {
-	FindRoom() domain.VacantHotels
+	FindRoom(
+		prefecture string,
+		city string,
+		checkinDate string,
+		checkoutDate string,
+		adultNum string,
+		maxCharge string,
+	) domain.VacantHotels
 }

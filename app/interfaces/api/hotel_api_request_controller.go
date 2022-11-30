@@ -29,7 +29,13 @@ func NewHotelApiRequestController(
 
 func (controller *HotelApiController) GetVacantHotelAndRoom(c *gin.Context) {
 	//englishword := c.Param("word")
-	hotelsAndRooms := controller.Interactor.VacantHotel()
+	prefecture := c.Param("prefecture")
+	city := c.Param("city")
+	checkin := c.Param("checkin")
+	checkout := c.Param("checkout")
+	adultNum := c.Param("adultNum")
+	maxCharge := c.Param("maxcharge")
+	hotelsAndRooms := controller.Interactor.VacantHotel(prefecture, city, checkin, checkout, adultNum, maxCharge)
 
 	c.JSON(http.StatusOK, gin.H{"message": hotelsAndRooms})
 }

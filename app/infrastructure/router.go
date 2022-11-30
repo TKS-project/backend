@@ -160,7 +160,7 @@ func Init() {
 		return
 	})
 
-	router.GET("/hotel", func(c *gin.Context) {
+	router.GET("/hotel/:prefecture/:city/:checkin/:checkout/:adultNum/:maxcharge", func(c *gin.Context) {
 		hotelApiController.GetVacantHotelAndRoom(c)
 		return
 	})

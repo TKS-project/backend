@@ -8,8 +8,15 @@ type HotelApiRequestInteractor struct {
 	ApiRequestRepository ApiRequestRepository
 }
 
-func (interactor *HotelApiRequestInteractor) VacantHotel() domain.VacantHotels {
+func (interactor *HotelApiRequestInteractor) VacantHotel(
+	prefecture string,
+	city string,
+	checkinDate string,
+	checkoutDate string,
+	adultNum string,
+	maxCharge string,
+) domain.VacantHotels {
 
-	hotelsAndRooms := interactor.ApiRequestRepository.FindRoom()
+	hotelsAndRooms := interactor.ApiRequestRepository.FindRoom(prefecture, city, checkinDate, checkoutDate, adultNum, maxCharge)
 	return hotelsAndRooms
 }

@@ -39,7 +39,7 @@ func Init() {
 	)
 
 	hotelApiController := controllers.NewHotelApiRequestController(
-		NewRakutenApiRequestHandler(),
+		NewApiRequestHandler(),
 	)
 
 	prefectureAndCityController := controllers.NewPrefectureAndCityController(

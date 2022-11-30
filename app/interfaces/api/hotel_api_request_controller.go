@@ -6,7 +6,7 @@ import (
 	//"github.com/Kantaro0829/clean-architecture-in-go/interfaces/database"
 	//"github.com/Kantaro0829/clean-architecture-in-go/interfaces/token"
 
-	api "github.com/Kantaro0829/clean-architecture-in-go/interfaces/rakutenApi"
+	api "github.com/Kantaro0829/clean-architecture-in-go/interfaces/apirequest"
 	"github.com/Kantaro0829/clean-architecture-in-go/usecase"
 	"github.com/gin-gonic/gin"
 )

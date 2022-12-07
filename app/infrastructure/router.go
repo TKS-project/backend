@@ -160,6 +160,16 @@ func Init() {
 		return
 	})
 
+	router.POST("/scrape/transports", func(c *gin.Context) {
+		scrapeController.GetOneTransports(c)
+		return
+	})
+
+	router.GET("/scrape", func(c *gin.Context) {
+		scrapeController.GetTransports(c)
+		return
+	})
+
 	router.GET("/hotel/:prefecture/:city/:checkin/:checkout/:adultNum/:maxcharge", func(c *gin.Context) {
 		hotelApiController.GetVacantHotelAndRoom(c)
 		return

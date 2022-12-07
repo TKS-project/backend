@@ -64,20 +64,37 @@ func (handler *GoQueryHandler) Find(word string) string {
 	return final
 }
 
-// func (handler *GoQueryHandler) FindTransportation() interface{} {
-// 	baseUrl := "https://www.navitime.co.jp/transfer/searchlist?orvStationName=中崎町&dnvStationName=新宿&month=2022%2F11&day=03&hour=14&minute=17&basis=1&from=view.transfer.searchlist&freePass=0&sort=0&wspeed=100&airplane=1&sprexprs=1&utrexprs=1&othexprs=1&mtrplbus=1&intercitybus=1&ferry=1&accidentRailCode=&accidentRailName=&isrec="
+func (handler *GoQueryHandler) FindTransportation() string {
+	baseUrl := "https://www.navitime.co.jp/transfer/searchlist?orvStationName=%E4%B8%AD%E5%B4%8E%E7%94%BA&dnvStationName=%E6%96%B0%E5%AE%BF&month=2022%2F11&day=03&hour=14&minute=17&basis=0&from=view.transfer.searchlist&freePass=0&sort=0&wspeed=100&airplane=1&sprexprs=1&utrexprs=1&othexprs=1&mtrplbus=1&intercitybus=1&ferry=1&accidentRailCode=&accidentRailName=&isrec="
 
-// 	res, err := http.Get(baseUrl)
-// 	if err != nil {
-// 		panic(err.Error)
-// 	}
-// 	defer res.Body.Close()
+	/*
+		https://www.navitime.co.jp/transfer/searchlist?orvStationName=中崎町&dnvStationName=新宿&month=2022%2F12&day=03&hour=14&minute=11&orvStationCode=00004254&dnvStationCode=00006055&basis=0&from=view.transfer.searchlist&freePass=0&sort=0&wspeed=100&airplane=1&sprexprs=1&utrexprs=1&othexprs=1&mtrplbus=1&intercitybus=1&ferry=1&accidentRailCode=&accidentRailName=&isrec=
+	*/
 
-// 	if res.StatusCode != 200 {
-// 		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
-// 	}
-// 	//fmt.Printf("url：%v", handler.query.Url.Path)
-// 	handler.query, _ = goquery.NewDocumentFromReader(res.Body)
-// 	selection := handler.query.Find("li#route_detail")
-// 	fmt.Println(selection)
-// }
+	//https://www.navitime.co.jp/transfer/searchlist?orvStationName=%E4%B8%AD%E5%B4%8E%E7%94%BA&dnvStationName=%E6%96%B0%E5%AE%BF&month=2022%2F11&day=03&hour=14&minute=17&basis=0&from=view.transfer.searchlist&freePass=0&sort=0&wspeed=100&airplane=1&sprexprs=1&utrexprs=1&othexprs=1&mtrplbus=1&intercitybus=1&ferry=1&accidentRailCode=&accidentRailName=&isrec=
+
+	res, err := http.Get(baseUrl)
+	if err != nil {
+		fmt.Println("cannot access to this URL")
+		panic(err.Error)
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+	}
+	//fmt.Printf("url：%v", handler.query.Url.Path)
+	handler.query, _ = goquery.NewDocumentFromReader(res.Body)
+	selection := handler.query.Find("li#route_detail")
+	fmt.Println(selection.Text())
+	return selection.Text()
+}
+
+func (handler *GoQueryHandler) GetDoc(url string) *goquery.Document {
+	doc, err := goquery.NewDocument(url)
+	if err != nil {
+		panic(err)
+	}
+	handler.query = doc
+	return doc
+}

@@ -8,6 +8,7 @@ import (
 	//"github.com/Kantaro0829/clean-architecture-in-go/interfaces/token"
 	"github.com/Kantaro0829/clean-architecture-in-go/interfaces/scrape"
 
+	"github.com/Kantaro0829/clean-architecture-in-go/domain"
 	"github.com/Kantaro0829/clean-architecture-in-go/usecase"
 	"github.com/gin-gonic/gin"
 )
@@ -37,4 +38,23 @@ func (controller *ScrapeController) GetMeaning(c *gin.Context) {
 	fmt.Println("取得した単語の意味:%v", res)
 
 	c.JSON(http.StatusOK, gin.H{"message": res})
+}
+
+func (controller *ScrapeController) GetTransports(c *gin.Context) {
+	res := controller.Interactor.GetTransports()
+	c.JSON(http.StatusOK, gin.H{"message": res})
+}
+
+func (controller *ScrapeController) GetOneTransports(c *gin.Context) {
+
+	var transportRequest domain.TransportsRequest
+
+	if err := c.ShouldBindJSON(&transportRequest); err != nil {
+		fmt.Println(transportRequest)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "JSONのデータ構造が間違ってる"})
+		return
+	}
+
+	res := controller.Interactor.GetOneTransports(transportRequest)
+	c.JSON(http.StatusOK, res)
 }

@@ -41,7 +41,6 @@ func (handler *SqlHandler) FindAll(obj interface{}) (interface{}, error) {
 }
 
 func (handler *SqlHandler) FindOne(obj interface{}, columns []string, where interface{}) (interface{}, error) {
-	//handler.db.Select([]string{"name", "age"}).Where(&User{Name: "jinzhu", Age: 20}).First(&obj)
 	if err := handler.db.Select(columns).Where(where).First(obj).Error; err != nil {
 		return nil, err
 	}
@@ -49,8 +48,14 @@ func (handler *SqlHandler) FindOne(obj interface{}, columns []string, where inte
 
 }
 
+func (handler *SqlHandler) RowSql(s string, arguments interface{}, scan interface{}) error {
+	if err := handler.db.Raw(s, arguments).Scan(scan).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
 func (handler *SqlHandler) Row(row string, where interface{}, scan interface{}) (interface{}, error) {
-	//戻り値配列
 	if err := handler.db.Raw(row).Where(where).Scan(scan).Error; err != nil {
 		return nil, err
 	}
@@ -58,21 +63,13 @@ func (handler *SqlHandler) Row(row string, where interface{}, scan interface{}) 
 }
 
 func (handler *SqlHandler) Update(obj interface{}) error {
-	// if err := handler.db.Model(&user).Updates(User{Name: "hello", Age: 18, Active: false}).Error; err != nil {
-	// 	return err
-	// }
 	if err := handler.db.Save(obj).Error; err != nil {
 		return err
 	}
-	// if err := handler.db.Model(obj).Updates(where).Error; err != nil {
-	// 	return err
-	// }
-
 	return nil
 }
 
 func (handler *SqlHandler) DeleteById(obj interface{}, id string) {
-	//Gorm.Deleteメソッド
 	handler.db.Delete(obj, id)
 }
 
@@ -85,9 +82,6 @@ func (handler *SqlHandler) DeleteOne(user domain.User) error {
 
 func (handler *SqlHandler) UpdateName(user domain.User) error {
 	fmt.Println(user)
-	// Update attributes with `struct`, will only update non-zero fields
-	//db.Model(&user).Updates(User{Name: "hello", Age: 18, Active: false})
-	// UPDATE users SET name='hello', age=18, updated_at = '2013-11-17 21:34:10' WHERE id = 111;
 	if err := handler.db.Model(&user).Update("name", user.Name).Error; err != nil {
 		return err
 	}
@@ -96,11 +90,9 @@ func (handler *SqlHandler) UpdateName(user domain.User) error {
 
 func (handler *SqlHandler) GetIdMailNamePasswordByMail(mail string) (domain.User, error) {
 	user := domain.User{}
-
 	if err := handler.db.Select("id", "mail", "name", "password").Where("mail = ?", mail).First(&user).Error; err != nil {
 		return user, err
 	}
-
 	return user, nil
 }
 

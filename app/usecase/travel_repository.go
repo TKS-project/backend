@@ -6,4 +6,5 @@ import (
 
 type TravelRepository interface {
 	Insert(t domain.Travel) (int, error)
+	UpdateTravel(t domain.Travel) error
 }

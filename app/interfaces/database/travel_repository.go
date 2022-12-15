@@ -20,3 +20,11 @@ func (db *TravelRepository) Insert(t domain.Travel) (int, error) {
 	travelId := t.ID
 	return travelId, nil
 }
+
+func (db *TravelRepository) UpdateTravel(t domain.Travel) error {
+	err := db.Update(&t)
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -1,6 +1,8 @@
 package database
 
 import (
+	"fmt"
+
 	"github.com/Kantaro0829/clean-architecture-in-go/domain"
 )
 
@@ -32,15 +34,19 @@ func (db *PrefectureRepository) GetCitiesByPreId(prefectureId int) ([]domain.Cit
 	//column
 	//where prefecture code 指定
 	//scan
-	where := map[string]interface{}{"prefecture_id": prefectureId}
+	arguments := map[string]interface{}{
+		"preId": prefectureId,
+	}
+
 	sql := `
-	select * from cities
+	select * from cities where prefecture_id = @preId
 	`
 	result := []domain.Citie{}
-	_, err := db.Row(sql, where, &result)
+	_, err := db.RowSql(sql, arguments, &result)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(result)
 	return result, nil
 }
 

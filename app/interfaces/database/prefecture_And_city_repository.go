@@ -28,6 +28,22 @@ func (db *PrefectureRepository) FindAllCities() ([]domain.Citie, error) {
 	return cities, err
 }
 
+func (db *PrefectureRepository) GetCitiesByPreId(prefectureId int) ([]domain.Citie, error) {
+	//column
+	//where prefecture code 指定
+	//scan
+	where := map[string]interface{}{"prefecture_id": prefectureId}
+	sql := `
+	select * from cities
+	`
+	result := []domain.Citie{}
+	_, err := db.Row(sql, where, &result)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 func (db *PrefectureRepository) FindAllDetailedCities() ([]domain.DetailedCitie, error) {
 	detailedCities, err := db.GetAllDetailedCities()
 	if err != nil {

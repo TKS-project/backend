@@ -8,4 +8,5 @@ type PrefectureRepository interface {
 	FindAll() ([]domain.Prefecture, error)
 	FindAllCities() ([]domain.Citie, error)
 	FindAllDetailedCities() ([]domain.DetailedCitie, error)
+	GetCitiesByPreId(prefectureId int) ([]domain.Citie, error)
 }

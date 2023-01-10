@@ -1,6 +1,8 @@
 package usecase
 
-import "github.com/Kantaro0829/clean-architecture-in-go/domain"
+import (
+	"github.com/Kantaro0829/clean-architecture-in-go/domain"
+)
 
 type PrefectureAndCityInteractor struct {
 	PrefectureRepository PrefectureRepository
@@ -29,4 +31,12 @@ func (interactor *PrefectureAndCityInteractor) FindAllDetailedCities() ([]domain
 		return []domain.DetailedCitie{}, err
 	}
 	return detailedCities, err
+}
+
+func (interactor *PrefectureAndCityInteractor) FindCitiesByPrefectureId(prefectureId int) ([]domain.Citie, error) {
+	cities, err := interactor.PrefectureRepository.GetCitiesByPreId(prefectureId)
+	if err != nil {
+		return nil, err
+	}
+	return cities, nil
 }

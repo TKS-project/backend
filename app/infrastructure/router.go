@@ -160,6 +160,11 @@ func Init() {
 		return
 	})
 
+	router.GET("/cities/:prefectureId", func(c *gin.Context) {
+		prefectureAndCityController.GetCitiesByPrefectureId(c)
+		return
+	})
+
 	router.GET("/detailed", func(c *gin.Context) {
 		prefectureAndCityController.GetAllDetailedCities(c)
 		return

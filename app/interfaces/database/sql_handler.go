@@ -8,6 +8,7 @@ type SqlHandler interface {
 	Create(object interface{}) error
 	FindAll(object interface{}) (interface{}, error)
 	FindOne(obj interface{}, columns []string, where interface{}) (interface{}, error)
+	RowSql(sql string, args interface{}, result interface{}) (interface{}, error)
 
 	Update(object interface{}) error
 	DeleteById(object interface{}, id string)

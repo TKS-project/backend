@@ -20,3 +20,8 @@ func (interactor *TravelInteractor) Add(t domain.Travel) (int, error) {
 	travelId, err := interactor.TravelRepository.Insert(t)
 	return travelId, err
 }
+
+func (interactor *TravelInteractor) Update(t domain.Travel) error {
+	err := interactor.TravelRepository.UpdateTravel(t)
+	return err
+}

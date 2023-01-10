@@ -48,7 +48,6 @@ func (controller *BudgetController) Add(c *gin.Context) {
 	// Verify token
 	tokenString := domain.Token(header.Authorization)
 	id, err := controller.Toekn.GetId(tokenString)
-	//id, err := controller.Interactor.Authenticate(tokenString)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
 		return
@@ -76,4 +75,36 @@ func (controller *BudgetController) Add(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"budget_id": budgetId})
+}
+
+func (controller *BudgetController) Update(c *gin.Context) {
+	var header domain.HeaderWithToken
+	err := c.BindHeader(&header)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
+		return
+	}
+
+	// Verify token
+	tokenString := domain.Token(header.Authorization)
+	id, err := controller.Toekn.GetId(tokenString)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
+		return
+	}
+	fmt.Printf("JWTから解析したID : %v", id)
+
+	var budgetUpdate domain.BudgetUpdate
+
+	if err := c.ShouldBindJSON(&budgetUpdate); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "JSONのデータ構造が間違ってる"})
+		return
+	}
+	err = controller.Interactor.UpdateBudget(budgetUpdate, id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "データ更新に失敗しました"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "データ更新成功"})
+	return
 }

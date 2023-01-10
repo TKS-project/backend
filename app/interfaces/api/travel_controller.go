@@ -72,3 +72,37 @@ func (controller *TravelController) Add(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"travel_id": travelId})
 }
+
+func (controller *TravelController) Update(c *gin.Context) {
+	// Get token from request header
+	var header domain.HeaderWithToken
+	err := c.BindHeader(&header)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
+		return
+	}
+
+	// Verify token
+	tokenString := domain.Token(header.Authorization)
+	id, err := controller.Interactor.Authenticate(tokenString)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "認証できませんでした"})
+		return
+	}
+
+	var travelJson domain.Travel
+
+	if err := c.ShouldBindJSON(&travelJson); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "JSONのデータ構造が間違ってる"})
+		return
+	}
+
+	travelJson.UserId = id
+
+	result := controller.Interactor.Update(travelJson)
+	if result != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "データの更新に失敗しました"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "データ更新成功"})
+}

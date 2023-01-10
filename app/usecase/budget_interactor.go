@@ -13,3 +13,11 @@ func (interactor *BudgetInteractor) Add(b domain.Budget) (int, error) {
 	}
 	return budgetId, nil
 }
+
+func (interactor *BudgetInteractor) UpdateBudget(b domain.BudgetUpdate, userId int) error {
+	err := interactor.BudgetRepository.Update(b, userId)
+	if err != nil {
+		return err
+	}
+	return nil
+}

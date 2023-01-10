@@ -10,23 +10,6 @@ import (
 )
 
 func Init() {
-	// Echo instance
-
-	// baseUrl := "https://www.navitime.co.jp/transfer/searchlist?orvStationName=中崎町&dnvStationName=新宿&month=2022%2F11&day=03&hour=14&minute=17&basis=1&from=view.transfer.searchlist&freePass=0&sort=0&wspeed=100&airplane=1&sprexprs=1&utrexprs=1&othexprs=1&mtrplbus=1&intercitybus=1&ferry=1&accidentRailCode=&accidentRailName=&isrec="
-
-	// res, err := http.Get(baseUrl)
-	// if err != nil {
-	// 	panic(err.Error)
-	// }
-	// defer res.Body.Close()
-
-	// if res.StatusCode != 200 {
-	// 	log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
-	// }
-	// //fmt.Printf("url：%v", handler.query.Url.Path)
-	// query, _ := goquery.NewDocumentFromReader(res.Body)
-	// selection := query.Find("li#route_detail")
-	// fmt.Println(selection)
 
 	router := gin.Default()
 	userController := controllers.NewUserController(
@@ -66,21 +49,17 @@ func Init() {
 	)
 
 	router.GET("/users", func(c *gin.Context) {
-
 		userController.GetUser(c)
-
 		return
 	})
 
 	router.POST("/users", func(c *gin.Context) {
-		userController.Create(c) //それぞれのルーティングごと関数を呼び出す
-		// c.JSON(http.StatusOK, gin.H{"message": "data was inserted"})
+		userController.Create(c)
 		return
 	})
 
 	router.POST("/users/update", func(c *gin.Context) {
 		var userJson domain.User
-		//上で宣言した構造体にJsonをバインド。エラーならエラー処理を返す
 		if err := c.ShouldBindJSON(&userJson); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -130,15 +109,8 @@ func Init() {
 		return
 	})
 
-	// inUserRouter := router.Group("/users",
-	// 	func(c *gin.Context) { userController.Authenticate(c) },
-	// )
-
 	router.GET("users/authenticate", func(c *gin.Context) {
-		// token := domain.Token
-		//token = c.Request.Header["Authorization"][0]
 		result := userController.Authenticate(c)
-		//result := userController.Authenticate(token)
 		if result != nil {
 			fmt.Printf(":エラー内容：%v", result)
 			c.JSON(
@@ -203,8 +175,17 @@ func Init() {
 		return
 	})
 
+	router.PUT("/travel", func(c *gin.Context) {
+		travelController.Update(c)
+		return
+	})
+
 	router.POST("/budget", func(c *gin.Context) {
 		budgetController.Add(c)
+		return
+	})
+	router.PUT("/budget", func(c *gin.Context) {
+		budgetController.Update(c)
 		return
 	})
 	router.POST("/visit", func(c *gin.Context) {
@@ -213,9 +194,11 @@ func Init() {
 	})
 	router.POST("/transports", func(c *gin.Context) {
 		transportsController.Add(c)
+		return
 	})
 	router.GET("/sightseeing/:id", func(c *gin.Context) {
 		sightseeingController.GetInfo(c)
+		return
 	})
 
 	router.Run(":3000")

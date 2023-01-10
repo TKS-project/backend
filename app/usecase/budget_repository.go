@@ -6,4 +6,5 @@ import (
 
 type BudgetRepository interface {
 	Insert(b domain.Budget) (int, error)
+	Update(b domain.BudgetUpdate, userId int) error
 }

@@ -21,7 +21,7 @@ func (db *BudgetRepository) Update(b domain.BudgetUpdate, userId int) error {
 	sql := `
 		UPDATE budgets
 			INNER JOIN travels
-				ON budgets.id = travels.id
+				ON budgets.travel_id = travels.id
 		SET budgets.accommodation = @accommodation, budgets.sightseeing = @sightseeing, budgets.meal = @meal, budgets.sum = @sum, budgets.transportations = @transports
 		WHERE travels.user_id = @userId AND budgets.id = @id
 	`
@@ -34,7 +34,7 @@ func (db *BudgetRepository) Update(b domain.BudgetUpdate, userId int) error {
 		"userId":        userId,
 		"id":            b.ID,
 	}
-	err := db.RowSql(sql, arguments, &b)
+	_, err := db.RowSql(sql, arguments, &b)
 	if err != nil {
 		return err
 	}

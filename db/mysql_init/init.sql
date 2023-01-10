@@ -500,6 +500,10 @@ CREATE TABLE visits (
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO visits(budget_id, visit_day, address, charge, info, name, visit_type, updated_at, created_at, deleted_at)
+    VALUES(1, "2022-12-30", "〒530-0015 大阪府大阪市北区中崎西２丁目３−３５", 7000, "情報", "ECCコン専", "hotel",NUll, "2020-08-01", NULL),
+          (2, "2022-12-30", "〒530-0015 大阪府大阪市北区中崎西２丁目３−３５", 7000, "情報", "ECCコン専", "hotel",NUll, "2020-08-01", NULL);
+
 CREATE TABLE transportations (
     id INT(255) auto_increment NOT NULL,
     budget_id INT(255) NOT NULL,

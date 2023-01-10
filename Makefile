@@ -5,3 +5,6 @@ connect:
 
 down:
 	docker-compose down
+
+db-up:
+	docker-compose up db

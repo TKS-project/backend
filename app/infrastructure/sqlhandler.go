@@ -48,11 +48,11 @@ func (handler *SqlHandler) FindOne(obj interface{}, columns []string, where inte
 
 }
 
-func (handler *SqlHandler) RowSql(s string, arguments interface{}, scan interface{}) error {
+func (handler *SqlHandler) RowSql(s string, arguments interface{}, scan interface{}) (interface{}, error) {
 	if err := handler.db.Raw(s, arguments).Scan(scan).Error; err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return scan, nil
 }
 
 func (handler *SqlHandler) Row(row string, where interface{}, scan interface{}) (interface{}, error) {

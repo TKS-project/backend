@@ -57,3 +57,13 @@ func (db *PrefectureRepository) FindAllDetailedCities() ([]domain.DetailedCitie,
 	}
 	return detailedCities, err
 }
+
+func (db *PrefectureRepository) IsDetailedCityExisting(cityId int) (bool, error) {
+	fmt.Printf("cityId: %v", cityId)
+	dCity := domain.DetailedCitie{}
+	isExist, err := db.IsRecordExisting(&dCity, &domain.DetailedCitie{CityId: int16(cityId)})
+	if err != nil {
+		return false, err
+	}
+	return isExist, nil
+}

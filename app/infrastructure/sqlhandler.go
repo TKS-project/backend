@@ -138,3 +138,15 @@ func (handler *SqlHandler) GetPasswordByMail(mail string) (string, error) {
 	}
 	return user.Password, nil
 }
+
+func (handler *SqlHandler) IsRecordExisting(obj interface{}, where interface{}) (bool, error) {
+	result := handler.db.Where(where).First(obj)
+	fmt.Println(result)
+	isExist := result.RowsAffected
+	fmt.Println(isExist)
+	fmt.Println(obj)
+	if isExist < 1 {
+		return false, nil
+	}
+	return true, nil
+}

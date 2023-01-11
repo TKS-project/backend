@@ -170,6 +170,11 @@ func Init() {
 		return
 	})
 
+	router.GET("/detailed/exist/:cityId", func(c *gin.Context) {
+		prefectureAndCityController.CheckIsDcityExisting(c)
+		return
+	})
+
 	router.GET("/user/:mail", func(c *gin.Context) {
 		userController.GetNamePass(c)
 		return

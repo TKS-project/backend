@@ -69,3 +69,14 @@ func (controller *PrefectureAndCityController) GetAllDetailedCities(c *gin.Conte
 	}
 	c.JSON(http.StatusOK, gin.H{"data": res})
 }
+
+func (controller *PrefectureAndCityController) CheckIsDcityExisting(c *gin.Context) {
+	cityId := c.Param("cityId")
+	cId, _ := strconv.Atoi(cityId)
+	isExist, err := controller.Interactor.IsDetailedCityExist(cId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"exist": isExist})
+}

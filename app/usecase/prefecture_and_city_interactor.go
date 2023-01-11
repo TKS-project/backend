@@ -40,3 +40,11 @@ func (interactor *PrefectureAndCityInteractor) FindCitiesByPrefectureId(prefectu
 	}
 	return cities, nil
 }
+
+func (interactor *PrefectureAndCityInteractor) IsDetailedCityExist(cityId int) (bool, error) {
+	isExist, err := interactor.PrefectureRepository.IsDetailedCityExisting(cityId)
+	if err != nil {
+		return false, err
+	}
+	return isExist, nil
+}

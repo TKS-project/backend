@@ -170,6 +170,11 @@ func Init() {
 		return
 	})
 
+	router.GET("/detailed/:cityId", func(c *gin.Context) {
+		prefectureAndCityController.GetDetailedCitiesByCityId(c)
+		return
+	})
+
 	router.GET("/detailed/exist/:cityId", func(c *gin.Context) {
 		prefectureAndCityController.CheckIsDcityExisting(c)
 		return

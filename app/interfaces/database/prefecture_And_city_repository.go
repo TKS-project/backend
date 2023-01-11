@@ -58,6 +58,23 @@ func (db *PrefectureRepository) FindAllDetailedCities() ([]domain.DetailedCitie,
 	return detailedCities, err
 }
 
+func (db *PrefectureRepository) GetDetailedCitiesByCityId(cityId int) ([]domain.DetailedCitie, error) {
+	arguments := map[string]interface{}{
+		"cityId": int16(cityId),
+	}
+
+	sql := `
+	select * from detailed_cities where city_id = @cityId
+	`
+	result := []domain.DetailedCitie{}
+	_, err := db.RowSql(sql, arguments, &result)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(result)
+	return result, nil
+}
+
 func (db *PrefectureRepository) IsDetailedCityExisting(cityId int) (bool, error) {
 	fmt.Printf("cityId: %v", cityId)
 	dCity := domain.DetailedCitie{}

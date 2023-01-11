@@ -10,4 +10,5 @@ type PrefectureRepository interface {
 	FindAllDetailedCities() ([]domain.DetailedCitie, error)
 	GetCitiesByPreId(prefectureId int) ([]domain.Citie, error)
 	IsDetailedCityExisting(int) (bool, error)
+	GetDetailedCitiesByCityId(cityId int) ([]domain.DetailedCitie, error)
 }
